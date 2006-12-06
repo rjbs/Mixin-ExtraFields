@@ -77,6 +77,7 @@ sub gen_fields_group {
     $method{ "$method_name\_$moniker" } = sub {
       my $self = shift;
       my $id   = $self->$id_method;
+      Carp::confess "couldn't determine id for object" unless $id;
       $driver->$driver_method($self, $id, @_);
     }
   }
