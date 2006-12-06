@@ -33,6 +33,13 @@ sub get_extra {
   return $object->{ $self->hash_key }{ $name };
 }
 
+sub get_all_extra {
+  my ($self, $object, $id) = @_;
+
+  return unless my $hash_ref = $object->{ $self->{hash_key} };
+  return %$hash_ref;
+}
+
 sub set_extra {
   my ($self, $object, $id, $name, $value) = @_;
 
@@ -43,6 +50,11 @@ sub delete_extra {
   my ($self, $object, $id, $name) = @_;
 
   delete $object->{ $self->hash_key }{ $name };
+}
+
+sub delete_all_extra {
+  my ($self, $object, $id) = @_;
+  $object->{ $self->hash_key } = {};
 }
 
 1;
