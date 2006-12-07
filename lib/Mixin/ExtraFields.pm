@@ -88,7 +88,7 @@ sub gen_fields_group {
   for my $method_name ($class->methods) {
     my $install_method = $class->method_name($method_name, $moniker);
 
-    $method{ $install_method } = $class->_build_method(
+    $method{ $install_method } = $class->build_method(
       $method_name,
       {
         id_method => \$id_method,
@@ -100,7 +100,7 @@ sub gen_fields_group {
   return \%method;
 }
 
-sub _build_method {
+sub build_method {
   my ($self, $method_name, $arg) = @_;
 
   # Remember that these are all passed in as references, to avoid unneeded
