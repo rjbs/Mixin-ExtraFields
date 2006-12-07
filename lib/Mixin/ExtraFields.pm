@@ -52,6 +52,8 @@ use Sub::Exporter -setup => {
   groups => [ fields => \'gen_fields_group', ]
 };
 
+sub default_moniker { 'extra' }
+
 sub methods {
   qw(
     exists
@@ -82,7 +84,7 @@ sub gen_fields_group {
   my $driver = $class->build_driver($arg->{driver});
 
   my $id_method = $arg->{id} || 'id';
-  my $moniker   = $arg->{moniker} || 'extra';
+  my $moniker   = $arg->{moniker} || $class->default_moniker;
 
   my %method;
   for my $method_name ($class->methods) {
