@@ -94,8 +94,9 @@ sub gen_fields_group {
 
   my %method;
   for my $method_name ($class->methods) {
-    my $driver_method = "$method_name\_extra";
-    $method{ "$method_name\_$moniker" } = sub {
+    my $driver_method  = $class->driver_method_name($method_name);
+    my $install_method = $class->driver_method_name($method_name);
+    $method{ $install_method } = sub {
       my $self = shift;
       my $id   = $self->$id_method;
       Carp::confess "couldn't determine id for object" unless $id;
