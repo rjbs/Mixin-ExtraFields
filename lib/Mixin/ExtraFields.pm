@@ -52,14 +52,6 @@ use Sub::Exporter -setup => {
   groups => [ fields => \'gen_fields_group', ]
 };
 
-# methods we need to generate:
-#   _get
-#   _get_all
-#   _set
-#   _exists
-#   _delete
-#   _delete_all
-
 sub methods {
   qw(
     exists
@@ -94,18 +86,36 @@ sub gen_fields_group {
 
   my %method;
   for my $method_name ($class->methods) {
-    my $driver_method  = $class->driver_method_name($method_name);
     my $install_method = $class->method_name($method_name, $moniker);
 
-    $method{ $install_method } = sub {
-      my $self = shift;
-      my $id   = $self->$id_method;
-      Carp::confess "couldn't determine id for object" unless $id;
-      $driver->$driver_method($self, $id, @_);
-    }
+    $method{ $install_method } = $class->_build_method(
+      $method_name,
+      {
+        id_method => \$id_method,
+        driver    => \$driver,
+      }
+    );
   }
 
   return \%method;
+}
+
+sub _build_method {
+  my ($self, $method_name, $arg) = @_;
+
+  # Remember that these are all passed in as references, to avoid unneeded
+  # copying. -- rjbs, 2006-12-07
+  my $id_method = $arg->{id_method};
+  my $driver    = $arg->{driver};
+
+  my $driver_method  = $self->driver_method_name($method_name);
+
+  return sub {
+    my $self = shift;
+    my $id   = $self->$$id_method;
+    Carp::confess "couldn't determine id for object" unless $id;
+    $$driver->$driver_method($self, $id, @_);
+  };
 }
 
 sub build_driver {
