@@ -27,4 +27,17 @@ sub get_extra_detailed {
   return exists $extra{$name} ? $extra{$name} : ();
 }
 
+sub get_all_extra_names {
+  my ($self, $object, $id) = @_;
+  my %extra = $self->get_all_extra_detailed($object, $id);
+  return keys %extra;
+}
+
+sub exists_extra {
+  my ($self, $object, $id, $name) = @_;
+  my %extra = $self->get_all_extra_detailed($object, $id);
+
+  return exists $extra{ $name };
+}
+
 1;
