@@ -33,6 +33,13 @@ sub get_extra {
   return $object->{ $self->hash_key }{ $name };
 }
 
+sub get_all_extra_detailed {
+  my ($self, $object, $id) = @_;
+
+  return unless my $stash = $object->{ $self->hash_key };
+  my @all_detailed = map { $_ => { value => $stash->{$_} } } keys %$stash;
+}
+
 sub get_all_extra {
   my ($self, $object, $id) = @_;
 

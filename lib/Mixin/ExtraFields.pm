@@ -60,7 +60,28 @@ use Sub::Exporter -setup => {
 #   _delete
 #   _delete_all
 
-sub methods { qw(get get_all set exists delete delete_all) }
+sub methods {
+  qw(
+    exists
+    get_detailed get_all_detailed
+    get          get_all
+                 get_all_names
+    set
+    delete       delete_all
+  )
+}
+
+sub driver_method_name {
+  my ($self, $method) = @_;
+  $self->method_name($method, 'extra');
+}
+
+sub method_name {
+  my ($self, $method, $moniker) = @_;
+
+  return "get_all_$moniker\_names" if $method eq 'get_all_names';
+  return "$method\_$moniker";
+}
 
 sub gen_fields_group {
   my ($class, $name, $arg, $col) = @_;
@@ -72,7 +93,7 @@ sub gen_fields_group {
   my $moniker   = $arg->{moniker} || 'extra';
 
   my %method;
-  for my $method_name ( $class->methods) {
+  for my $method_name ($class->methods) {
     my $driver_method = "$method_name\_extra";
     $method{ "$method_name\_$moniker" } = sub {
       my $self = shift;
