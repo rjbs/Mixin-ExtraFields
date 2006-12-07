@@ -93,6 +93,7 @@ sub gen_fields_group {
       {
         id_method => \$id_method,
         driver    => \$driver,
+        moniker   => \$moniker, # So that things can refer to one another
       }
     );
   }
