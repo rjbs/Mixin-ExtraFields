@@ -1,0 +1,9 @@
+README for Mixin-ExtraFields
+
+To install:
+
+  perl Makefile.PL
+  make test
+  sudo make install
+
+Consult the POD for further documentation.

@@ -1,8 +1,12 @@
 Changes
-LICENSE
-Makefile.PL
 lib/Mixin/ExtraFields.pm
 lib/Mixin/ExtraFields/Driver.pm
 lib/Mixin/ExtraFields/Driver/HashGuts.pm
+LICENSE
+Makefile.PL
+MANIFEST
+README
 t/basic.t
 t/lib/Object/HasExtraFields.pm
+t/pod-coverage.t
+t/pod.t
