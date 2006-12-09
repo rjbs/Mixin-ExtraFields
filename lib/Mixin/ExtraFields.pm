@@ -99,6 +99,8 @@ A driver identifier must be either:
 
 =item * a full class name, prepended with +
 
+=back
+
 =head1 GENERATED METHODS
 
 The default implementation of Mixin::ExtraFields provides a number of methods
@@ -256,8 +258,8 @@ its documentation.  It is the method you are least likely to subclass.
 
 sub gen_fields_group {
   my ($class, $name, $arg, $col) = @_;
-
-  Carp::croak "no driver supplied to $class" unless $arg->{driver};
+  
+  $arg->{driver} ||= $class->default_driver_arg;
   my $driver = $class->build_driver($arg->{driver});
 
   my $id_method = $arg->{id} || 'id';
@@ -314,6 +316,21 @@ sub build_method {
     $$driver->$driver_method($self, $id, @_);
   };
 }
+
+=head2 default_driver_arg
+
+  my $arg = Mixin::ExtraFields->default_driver_arg;
+
+This method a default value for the C<driver> argument to the fields group
+generator.  By default, this method will croak if called.
+
+=cut
+
+sub default_driver_arg {
+  my ($class) = shift;
+  Carp::croak "no driver supplied to $class";
+}
+
 
 =head2 build_driver
 
