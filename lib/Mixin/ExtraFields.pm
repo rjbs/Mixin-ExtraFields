@@ -190,6 +190,11 @@ For information on writing drivers, see L<Mixin::ExtraFields::Driver>.
 
 =cut
 
+=begin wishful_thinking
+
+Wouldn't that be super?  Too bad that I can't defer the calling of this method
+until C<import> is called.
+
 =head2 default_group_name
 
   my $name = Mixin::ExtraFields->default_group_name;
@@ -200,12 +205,12 @@ could be used as follows:
 
   use Mixin::ExtraFields::Subclass -stuff => { moniker => "things" };
 
+=end wishful_thinking
+
 =cut
 
-sub default_group_name { 'fields' }
-
 use Sub::Exporter -setup => {
-  groups => [ __PACKAGE__->default_group_name => \'gen_fields_group', ],
+  groups => [ fields => \'gen_fields_group', ],
 };
 
 =head2 default_moniker
