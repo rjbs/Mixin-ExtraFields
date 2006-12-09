@@ -1,3 +1,5 @@
+Changes
+LICENSE
 Makefile.PL
 lib/Mixin/ExtraFields.pm
 lib/Mixin/ExtraFields/Driver.pm
