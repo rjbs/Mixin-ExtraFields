@@ -18,7 +18,6 @@ sub new {
 }
 
 sub id {
-  Carp::croak "not given an object" unless ref $_[0];
   0 + $_[0];
 }
 

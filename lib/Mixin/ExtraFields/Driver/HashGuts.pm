@@ -11,13 +11,13 @@ Mixin::ExtraFields::Driver::HashGuts - store extras in a hashy object's guts
 
 =head1 VERSION
 
-version 0.001
+version 0.003
 
  $Id$
 
 =cut
 
-our $VERSION = '0.001';
+our $VERSION = '0.003';
 
 =head1 SYNOPSIS
 
@@ -29,8 +29,9 @@ our $VERSION = '0.001';
 
 This driver class implements an extremely simple storage mechanism: extras are
 stored on the object on which the mixed-in methods are called.  By default,
-they are stored in the key C<__extras>, but this can be changed by providing a
-C<hash_key> argument to the driver configuration, like so:
+they are stored under the key returned by the C<L</default_has_key>> method,
+but this can be changed by providing a C<hash_key> argument to the driver
+configuration, like so:
 
   use Mixin::ExtraFields -fields => {
     driver => { class => 'HashGuts', hash_key => "\0Something\0Wicked\0" }
@@ -49,19 +50,33 @@ This method returns the key where the driver will store its extras.
 
 =cut
 
-sub from_args {
-  my ($class, $arg) = @_;
-
-  my $self = {
-    hash_key => $arg->{hash_key} || '__extras',
-  };
-
-  bless $self => $class;
-}
-
 sub hash_key {
   my ($self) = @_;
   return $self->{hash_key};
+}
+
+=head2 default_hash_key
+
+If no C<hash_key> argument is given for the driver, this method is called
+during driver initialization.  It will return a unique string to be used as the
+hash key.
+
+=cut
+
+my $i = 0;
+sub default_hash_key {
+  my ($self) = @_;
+  return "$self" . '@' . $i++;
+}
+
+sub from_args {
+  my ($class, $arg) = @_;
+
+  my $self = bless {} => $class;
+
+  $self->{hash_key} = $arg->{hash_key} || $self->default_hash_key;
+
+  return $self;
 }
 
 sub exists_extra {

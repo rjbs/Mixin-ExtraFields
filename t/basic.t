@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 19;
+use Test::More tests => 20;
 
 BEGIN { require_ok('Mixin::ExtraFields'); }
 
@@ -64,3 +64,6 @@ is_deeply(
   [ datum => { value => 20 } ],
   "get_all_detailed_misc gets the one pair that it should",
 );
+
+eval { (ref $object)->get_all_misc };
+like($@, qr/couldn't determine id/, "exception thrown if called on class");

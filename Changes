@@ -1,5 +1,8 @@
 Changelog for Mixin-ExtraFields
 
+0.003    2006-12-11
+         improve uniqueness of default HashGuts key
+
 0.002    2006-12-10
          some documentation improvements
 
