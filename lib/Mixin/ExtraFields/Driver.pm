@@ -13,13 +13,13 @@ Mixin::ExtraFields::Driver - a backend for extra field storage
 
 =head1 VERSION
 
-version 0.001
+version 0.004
 
  $Id$
 
 =cut
 
-our $VERSION = '0.001';
+our $VERSION = '0.004';
 
 =head1 SYNOPSIS
 
@@ -203,3 +203,4 @@ available under the same terms as perl itself.
 =cut
 
 1;
+
