@@ -11,13 +11,13 @@ Mixin::ExtraFields - add extra stashes of data to your objects
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
  $Id$
 
 =cut
 
-our $VERSION = '0.003';
+our $VERSION = '0.004';
 
 =head1 SYNOPSIS
 
@@ -342,7 +342,7 @@ sub build_method {
   return sub {
     my $self = shift;
     my $id   = $self->$$id_method;
-    Carp::confess "couldn't determine id for object" unless $id;
+    Carp::confess "couldn't determine id for object" unless defined $id;
     $$driver->$driver_method($self, $id, @_);
   };
 }
@@ -398,7 +398,7 @@ sub _driver_class_and_args {
     $class = "Mixin::ExtraFields::Driver::$class";
   }
 
-  return ($class, $arg || {});
+  return $class, $arg;
 }
 
 =head1 AUTHOR

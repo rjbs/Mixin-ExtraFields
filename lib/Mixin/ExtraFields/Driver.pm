@@ -5,6 +5,7 @@ use warnings;
 package Mixin::ExtraFields::Driver;
 
 use Carp ();
+use Sub::Install ();
 
 =head1 NAME
 
@@ -131,7 +132,7 @@ itself or a detailed hashref describing it.
 sub get_extra {
   my ($self, $object, $id, $name) = @_;
   
-  my $extra = $self->get_extra_detailed($object, $id, $name);
+  my $extra = $self->get_detailed_extra($object, $id, $name);
   return $extra ? $extra->{value} : ();
 }
 
@@ -185,7 +186,7 @@ sub delete_all_extra {
   my ($self, $object, $id) = @_;
 
   for my $name ($self->get_all_extra_names($object, $id)) {
-    $self->delete_extra($object, $id);
+    $self->delete_extra($object, $id, $name);
   }
 }
 

@@ -69,10 +69,48 @@ sub default_hash_key {
   return "$self" . '@' . $i++;
 }
 
+=head2 storage
+
+This method returns the hashref of storage used for extras.  Individual objects
+get weak references to their id within this hashref.
+
+=cut
+
+sub storage { $_[0]->{storage} }
+
+=head2 storage_for
+
+  my $stash = $driver->storage_for($object, $id);
+
+This method returns the hashref to use to store extras for the given object and
+id.  This hashref is stored on both the hash-based object (in its C<hash_key>
+entry) and on the driver (in the entry for C<$id> in its C<storage> hash).
+
+All objects with the same id should end up with the same hash in their
+C<hash_key> field.  B<None> of these references are weakened, which means two
+things:  first, even if all objects with a given id go out of scope, future
+objects with that id will retain the original extras; secondly, memory used to
+store extras is never reclaimed.  If this is a problem, use a more
+sophisticated driver.
+
+=cut
+
+sub storage_for {
+  my ($self, $object, $id) = @_;
+
+  my $store = $self->storage->{ $id } ||= {};
+
+  unless ($object->{ $self->hash_key }||0 == $store) {
+    $object->{ $self->hash_key } ||= $store;
+  }
+
+  return $store
+}
+
 sub from_args {
   my ($class, $arg) = @_;
 
-  my $self = bless {} => $class;
+  my $self = bless { storage => {} } => $class;
 
   $self->{hash_key} = $arg->{hash_key} || $self->default_hash_key;
 
@@ -82,7 +120,7 @@ sub from_args {
 sub exists_extra {
   my ($self, $object, $id, $name) = @_;
 
-  return exists $object->{ $self->hash_key }{ $name };
+  return exists $self->storage_for($object, $id)->{$name};
 }
 
 sub get_extra {
@@ -90,7 +128,7 @@ sub get_extra {
 
   # avoid autovivifying entries on get.
   return unless $self->exists_extra($object, $id, $name);
-  return $object->{ $self->hash_key }{ $name };
+  return $self->storage_for($object, $id)->{$name};
 }
 
 sub get_detailed_extra {
@@ -98,38 +136,37 @@ sub get_detailed_extra {
 
   # avoid autovivifying entries on get.
   return unless $self->exists_extra($object, $id, $name);
-  return { value => $object->{ $self->hash_key }{ $name } };
+  return { value => $self->storage_for($object, $id)->{$name} };
 }
 
 sub get_all_detailed_extra {
   my ($self, $object, $id) = @_;
 
-  return unless my $stash = $object->{ $self->hash_key };
+  my $stash = $self->storage_for($object, $id);
   my @all_detailed = map { $_ => { value => $stash->{$_} } } keys %$stash;
 }
 
 sub get_all_extra {
   my ($self, $object, $id) = @_;
 
-  return unless my $hash_ref = $object->{ $self->{hash_key} };
-  return %$hash_ref;
+  return %{ $self->storage_for($object, $id) };
 }
 
 sub set_extra {
   my ($self, $object, $id, $name, $value) = @_;
 
-  return $object->{ $self->hash_key }{ $name } = $value;
+  $self->storage_for($object, $id)->{$name} = $value;
 }
 
 sub delete_extra {
   my ($self, $object, $id, $name) = @_;
 
-  delete $object->{ $self->hash_key }{ $name };
+  delete $self->storage_for($object, $id)->{$name};
 }
 
 sub delete_all_extra {
   my ($self, $object, $id) = @_;
-  $object->{ $self->hash_key } = undef;
+  %{ $self->storage_for($object, $id) } = ();
 }
 
 =head1 AUTHOR
