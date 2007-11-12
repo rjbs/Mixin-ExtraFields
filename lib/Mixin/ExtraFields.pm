@@ -11,13 +11,11 @@ Mixin::ExtraFields - add extra stashes of data to your objects
 
 =head1 VERSION
 
-version 0.004
-
- $Id$
+version 0.005
 
 =cut
 
-our $VERSION = '0.004';
+our $VERSION = '0.005';
 
 =head1 SYNOPSIS
 
@@ -79,7 +77,7 @@ below.
 Other valid arguments are:
 
   id - the name of the method to call on objects to get their unique identifier
-       default: id
+       default: id; an explicit undef will use each object's reference addr
 
   moniker - the name to use in forming mixed-in method names
             default: extra
@@ -292,7 +290,16 @@ sub gen_fields_group {
   $arg->{driver} ||= $class->default_driver_arg;
   my $driver = $class->build_driver($arg->{driver});
 
-  my $id_method = $arg->{id} || 'id';
+  my $id_method;
+  if (exists $arg->{id} and defined $arg->{id}) {
+    $id_method = $arg->{id};
+  } elsif (exists $arg->{id}) {
+    require Scalar::Util;
+    $id_method = \&Scalar::Util::refaddr;
+  } else {
+    $id_method = 'id';
+  }
+
   my $moniker   = $arg->{moniker} || $class->default_moniker;
 
   my %method;

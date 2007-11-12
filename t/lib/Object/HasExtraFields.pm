@@ -20,7 +20,7 @@ sub new {
 
 sub id {
   return unless ref $_[0];
-  0 + $_[0];
+  "id_" . (0 + $_[0]);
 }
 
 sub alt_id { 0 } # pretty lame for a unique id, huh?
