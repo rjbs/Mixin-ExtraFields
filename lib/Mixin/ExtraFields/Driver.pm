@@ -13,11 +13,11 @@ Mixin::ExtraFields::Driver - a backend for extra field storage
 
 =head1 VERSION
 
-version 0.005
+version 0.007
 
 =cut
 
-our $VERSION = '0.005';
+our $VERSION = '0.007';
 
 =head1 SYNOPSIS
 

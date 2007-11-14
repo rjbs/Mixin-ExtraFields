@@ -1,5 +1,8 @@
 Changelog for Mixin-ExtraFields
 
+0.007     2007-11-14
+          prereqs incorrect: missing Sub::Exporter and ::Install
+
 0.006     2007-11-13
           manifest was missing key file
 
