@@ -1,5 +1,8 @@
 Changelog for Mixin-ExtraFields
 
+0.006     2007-11-13
+          manifest was missing key file
+
 0.005     2007-11-07
           explicit undef for 'id' uses object reference address
 

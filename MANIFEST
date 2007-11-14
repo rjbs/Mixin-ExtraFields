@@ -21,6 +21,7 @@ t/driver-err.t
 t/lib/MEFD/Minimal.pm
 t/lib/MEFD/NoCompile.pm
 t/lib/Object/HasExtraFields.pm
+t/lib/Object/HasExtraFieldsRA.pm
 t/minidriver.t
 t/pod-coverage.t
 t/pod.t
