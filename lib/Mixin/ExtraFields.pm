@@ -4,6 +4,7 @@ use warnings;
 package Mixin::ExtraFields;
 
 use Carp ();
+use String::RewritePrefix;
 
 =head1 NAME
 
@@ -93,11 +94,16 @@ A driver identifier must be either:
 
 =over
 
-=item * a partial class name, to follow Mixin::ExtraFields::Driver::
+=item * an object of a class descended from the driver base class
+
+=item * a partial class name, to follow the driver base class name
 
 =item * a full class name, prepended with +
 
 =back
+
+The driver base class is provided by the C<L</driver_base_class>> method.  In
+almost all cases, it will be C<Mixin::ExtraFields::Driver>.
 
 =head1 GENERATED METHODS
 
@@ -286,7 +292,7 @@ its documentation.  It is the method you are least likely to subclass.
 
 sub gen_fields_group {
   my ($class, $name, $arg, $col) = @_;
-  
+
   $arg->{driver} ||= $class->default_driver_arg;
   my $driver = $class->build_driver($arg->{driver});
 
@@ -368,7 +374,6 @@ sub default_driver_arg {
   Carp::croak "no driver supplied to $class";
 }
 
-
 =head2 build_driver
 
   my $driver = Mixin::ExtraFields->build_driver($arg);
@@ -381,10 +386,16 @@ code's C<use> statement.
 
 sub build_driver {
   my ($self, $arg) = @_;
-  
+
+  return $arg if Params::Util::_INSTANCE($arg, $self->driver_base_class);
+
   my ($driver_class, $driver_args) = $self->_driver_class_and_args($arg);
 
-  eval "require $driver_class" or Carp::croak $@;
+  Carp::croak("invalid class name for driver: $driver_class")
+    unless Params::Util::_CLASS($driver_class);
+
+  eval "require $driver_class; 1" or Carp::croak $@;
+
   my $driver = $driver_class->from_args($driver_args);
 }
 
@@ -399,14 +410,26 @@ sub _driver_class_and_args {
     $arg = {};
   }
 
-  if (index($class, q{+}) == 0) {
-    $class = substr $class, 1;
-  } else {
-    $class = "Mixin::ExtraFields::Driver::$class";
-  }
+  $class = String::RewritePrefix->rewrite(
+    {
+      '+' => '',
+      '=' => '',
+      ''  => $self->driver_base_class . '::',
+    },
+    $class,
+  );
 
   return $class, $arg;
 }
+
+=head2 driver_base_class
+
+This is the name of the name of the class which drivers are expected to
+subclass.  By default it returns C<Mixin::ExtraFields::Driver>.
+
+=cut
+
+sub driver_base_class { 'Mixin::ExtraFields::Driver' }
 
 =head1 AUTHOR
 
