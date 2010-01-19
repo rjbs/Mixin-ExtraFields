@@ -334,6 +334,7 @@ form returned by the C<methods> method and a hashref of the following data:
 
   id_method - the method to call on objects to get their unique id
   driver    - the storage driver
+  moniker   - the moniker of the set of extras being built
 
 B<Note!>  The values for the above arguments are references to the values you'd
 expect.  That is, if the id method is "foo" you will be given an reference to
@@ -353,10 +354,10 @@ sub build_method {
   my $driver_method  = $self->driver_method_name($method_name);
 
   return sub {
-    my $self = shift;
-    my $id   = $self->$$id_method;
+    my $object = shift;
+    my $id     = $object->$$id_method;
     Carp::confess "couldn't determine id for object" unless defined $id;
-    $$driver->$driver_method($self, $id, @_);
+    $$driver->$driver_method($object, $id, @_);
   };
 }
 
