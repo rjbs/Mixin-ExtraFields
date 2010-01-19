@@ -13,7 +13,6 @@ lib/Mixin/ExtraFields/Driver/HashGuts.pm
 LICENSE
 Makefile.PL
 MANIFEST
-META.yml
 README
 t/bad-driver.t
 t/basic.t

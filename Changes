@@ -1,5 +1,9 @@
 Changelog for Mixin-ExtraFields
 
+0.008     2010-01-18
+          allow the user to specify a different driver base class
+          allow the user to provide a driver instance to ->import
+
 0.007     2007-11-14
           prereqs incorrect: missing Sub::Exporter and ::Install
 
