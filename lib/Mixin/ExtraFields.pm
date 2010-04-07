@@ -10,14 +10,6 @@ use String::RewritePrefix;
 
 Mixin::ExtraFields - add extra stashes of data to your objects
 
-=head1 VERSION
-
-version 0.008
-
-=cut
-
-our $VERSION = '0.008';
-
 =head1 SYNOPSIS
 
 If you use the ExtraFields mixin in your class:

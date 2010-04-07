@@ -11,14 +11,6 @@ use Sub::Install ();
 
 Mixin::ExtraFields::Driver - a backend for extra field storage
 
-=head1 VERSION
-
-version 0.008
-
-=cut
-
-our $VERSION = '0.008';
-
 =head1 SYNOPSIS
 
 This is really not something you'd use on your own, it's just used by
