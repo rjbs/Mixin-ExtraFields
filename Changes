@@ -1,4 +1,7 @@
-Changelog for Mixin-ExtraFields
+Changelog for {{$dist->name}}
+
+{{$NEXT}}
+          repackage with Dist::Zilla to fix some packaging issues in 0.008
 
 0.008     2010-01-18
           allow the user to specify a different driver base class

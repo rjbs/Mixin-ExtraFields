@@ -213,7 +213,7 @@ could be used as follows:
 
 =cut
 
-use Sub::Exporter -setup => {
+use Sub::Exporter 0.972 -setup => {
   groups => [ fields => \'gen_fields_group', ],
 };
 
