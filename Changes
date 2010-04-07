@@ -2,6 +2,9 @@ Changelog for {{$dist->name}}
 
 {{$NEXT}}
 
+0.100971  2010-04-07 08:00:05 America/New_York
+          make all package version numbers match
+
 0.100970  2010-04-06 21:49:43 America/New_York
           repackage with Dist::Zilla to fix some packaging issues in 0.008
 
