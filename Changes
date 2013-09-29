@@ -1,6 +1,7 @@
 Changelog for {{$dist->name}}
 
 {{$NEXT}}
+          woah! replace *ancient* Dist::Zilla configuration
 
 0.132720  2013-09-28 21:55:52 America/New_York
           update bugtracker, repo links
