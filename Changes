@@ -2,7 +2,7 @@ Changelog for {{$dist->name}}
 
 {{$NEXT}}
 
-0.132721  2013-09-28 21:56:53 America/New_York
+0.140001  2013-09-28 21:58:59 America/New_York
           woah! replace *ancient* Dist::Zilla configuration
 
 0.132720  2013-09-28 21:55:52 America/New_York
