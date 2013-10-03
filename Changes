@@ -2,6 +2,9 @@ Changelog for {{$dist->name}}
 
 {{$NEXT}}
 
+0.140002  2013-10-03 19:20:01 America/New_York
+          fix documentation embarrassments (thanks, fschlich@github!)
+
 0.140001  2013-09-28 21:58:59 America/New_York
           woah! replace *ancient* Dist::Zilla configuration
 
