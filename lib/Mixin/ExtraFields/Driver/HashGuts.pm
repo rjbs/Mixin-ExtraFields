@@ -2,11 +2,8 @@ use strict;
 use warnings;
 
 package Mixin::ExtraFields::Driver::HashGuts;
-use base qw(Mixin::ExtraFields::Driver);
-
-=head1 NAME
-
-Mixin::ExtraFields::Driver::HashGuts - store extras in a hashy object's guts
+use parent qw(Mixin::ExtraFields::Driver);
+# ABSTRACT: store extras in a hashy object's guts
 
 =head1 SYNOPSIS
 
@@ -157,17 +154,5 @@ sub delete_all_extra {
   my ($self, $object, $id) = @_;
   %{ $self->storage_for($object, $id) } = ();
 }
-
-=head1 AUTHOR
-
-This code was written by Ricardo SIGNES.  His code in 2006 was sponsored by
-Listbox.
-
-=head1 COPYRIGHT AND LICENSE
-
-Copyright (C) 2006, Ricardo SIGNES.  This code is free software, and is
-available under the same terms as perl itself.
-
-=cut
 
 1;

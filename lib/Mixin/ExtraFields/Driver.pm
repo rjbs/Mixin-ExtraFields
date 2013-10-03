@@ -3,13 +3,10 @@ use strict;
 use warnings;
 
 package Mixin::ExtraFields::Driver;
+# ABSTRACT: a backend for extra field storage
 
 use Carp ();
 use Sub::Install ();
-
-=head1 NAME
-
-Mixin::ExtraFields::Driver - a backend for extra field storage
 
 =head1 SYNOPSIS
 
@@ -179,18 +176,6 @@ sub delete_all_extra {
     $self->delete_extra($object, $id, $name);
   }
 }
-
-=head1 AUTHOR
-
-This code was written by Ricardo SIGNES.  His code in 2006 was sponsored by
-Listbox.
-
-=head1 COPYRIGHT AND LICENSE
-
-Copyright (C) 2006, Ricardo SIGNES.  This code is free software, and is
-available under the same terms as perl itself.
-
-=cut
 
 1;
 
